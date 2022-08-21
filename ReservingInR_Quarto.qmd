@@ -1,0 +1,37 @@
+---
+title: "Reserving In R"
+subtitle: "A Practical Approach"
+author: "Cyril Adoh"
+format: 
+  revealjs:
+    slide-number: h/v
+    show-slide-number: all
+    
+    logo: nas_logo.jpeg
+    footer: "August 24, 2022 - NAS CPD Session"
+---
+
+## Data Imports
+
+::: {.incremental}
+- Turn off alarm
+- Get out of bed ^[A footnote]
+
+::: aside
+Some additional commentary of more peripheral interest.
+:::
+:::
+
+## Columns
+
+:::: {.columns}
+
+::: {.column width="40%"}
+contents...
+:::
+
+::: {.column width="60%"}
+contents...
+:::
+
+::::
