@@ -3,12 +3,14 @@
 #Purpose:
 
 #load libraries and CSS
-source("Libraries_CSS.R")$value
-#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/HealthReserving/ConnectAccessDB.R")
-#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/HealthReserving/Premiums.R")
-#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/HealthReserving/ClaimsTriangle.R")
-#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/HealthReserving/Health_Reserving_Model.R")
+#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/LoadData.R")
+#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Premiums.R")
+#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Claims.R")
+#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Reserving_Model.R")
+
 library(shiny)
+library(shinythemes)
+library(shinyjs)
 library(shinydashboard)
 library(scales)
 library(ChainLadder)
@@ -25,13 +27,7 @@ body <- dashboardBody(fluidPage(theme=shinytheme("cerulean"),
   #     titlePanel(title="", windowTitle="Reserving Model")
   # ),
   navbarPage("",position="fixed-top",collapsible = TRUE,
-           #  source("Menu_Intro.R", local=TRUE)$value,
-             source("Menu_Health.R", local=TRUE)$value,
-            # source("Menu_NonLife.R", local=TRUE)$value,
-            # source("Menu_Life.R", local=TRUE)$value,
-            # source("Menu_ResultSummary.R", local=TRUE)$value,
-             #source("Menu_Help.R", local=TRUE)$value,
-             #source("Menu_QuitReboot.R", local=TRUE)$value
+             source("Menu.R", local=TRUE)$value
   )
   ))
 

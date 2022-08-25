@@ -9,7 +9,7 @@
 <link href="ReservingInR_Quarto_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.0.36">
 
-  <meta name="author" content="Cyril Adoh">
+  <meta name="author" content="Cyril Adoh (adocyrilazuka@gmail.com)">
   <title>Reserving In R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,8 +23,73 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="ReservingInR_Quarto_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link rel="stylesheet" href="style.css">
   <link href="ReservingInR_Quarto_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="ReservingInR_Quarto_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="ReservingInR_Quarto_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -320,37 +385,386 @@
 
 <section id="title-slide" class="center">
   <h1 class="title">Reserving In R</h1>
-  <p class="subtitle">A Practical Approach</p>
-  <p class="author">Cyril Adoh</p>
+  <p class="subtitle">A Practical Approach (Non Life)</p>
+  <p class="author">Cyril Adoh (adocyrilazuka@gmail.com)</p>
+</section>
+<section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#/actuarial-automation" id="/toc-actuarial-automation">Actuarial Automation</a></li>
+<li><a href="#/backstory" id="/toc-backstory">Backstory</a></li>
+<li><a href="#/package-chainladder" id="/toc-package-chainladder">Package ‘<em><code>ChainLadder</code></em>’<img data-src="chainladder.png" width="41"></a></li>
+<li><a href="#/take-control" id="/toc-take-control">Take Control</a></li>
+<li><a href="#/more-control-with-shiny" id="/toc-more-control-with-shiny">More Control with ’<em><code>Shiny</code>’</em></a></li>
+<li><a href="#/wrap-up-resources-and-references" id="/toc-wrap-up-resources-and-references">Wrap Up, Resources and References</a></li>
+<li><a href="#/thank-you." id="/toc-thank-you.">Thank you.</a></li>
+</ul>
+</nav>
 </section>
 
-<section id="data-imports" class="slide level2">
-<h2>Data Imports</h2>
+<section>
+<section id="actuarial-automation" class="title-slide slide level1 center">
+<h1>Actuarial Automation</h1>
+
+</section>
+<section id="actuarial-automation-1" class="slide level2 smaller">
+<h2>Actuarial Automation</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:100%;">
+<p><em>…We are stuck in using Excel similar to how actuaries in the old days were stuck using logbooks. We need to make peace with the fact that we cannot visualize all the calculations and every part of the process like with using Excel…</em> —Adriaan Rowan</p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="backstory" class="title-slide slide level1 center">
+<h1>Backstory</h1>
+
+</section>
+<section id="backstory-1" class="slide level2 smaller">
+<h2>Backstory</h2>
 <div>
 <ul>
-<li class="fragment">Turn off alarm</li>
-<li class="fragment">Get out of bed <sup>1</sup></li>
+<li class="fragment">Motivation</li>
+<li class="fragment">How do we do it today?</li>
+<li class="fragment">Other use cases. (RI optimisation, Large Loss Modelling, EC Modelling, ALM, IFRS17 cashflows, Portfolio Analytics)</li>
+<li class="fragment">What skills are required?
+<ul>
+<li class="fragment">Strong actuarial knowledge (!important)</li>
+<li class="fragment">Programming skills</li>
+<li class="fragment">Patience</li>
+</ul></li>
+<li class="fragment"></li>
 </ul>
+</div>
+<aside class="notes">
+<pre><code>How did you start?.
+Programming skills. Not necessarily R.
+Talk about AXA Harper tools in use cases.</code></pre>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="package-chainladder" class="title-slide slide level1 center">
+<h1>Package ‘<em><code>ChainLadder</code></em>’<img data-src="chainladder.png" width="41"></h1>
+
+</section>
+<section id="package-chainladder-1" class="slide level2 smaller">
+<h2>Package ‘<em><code>ChainLadder</code></em>’<img data-src="chainladder.png" width="27"></h2>
+<ul>
+<li>Standard definition: The <code>ChainLadder</code> package provides various statistical methods which are typically used for the estimation of outstanding claims reserves in general insurance.</li>
+<li>Methods available are: <code>MackChainLadder</code>, <code>MunichChainLadder</code>, <code>Bootstrap</code>, GLM etc.</li>
+<li>Also contains useful functions <code>incr2cum</code>, <code>cum2incr</code>, <code>ata</code> etc.</li>
+</ul>
+</section>
+<section id="chainladder-package-example" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li>In this example, we will use <code>RAA</code> data that come with the <code>ChainLadder</code> package to illustrate its features.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(ChainLadder) <span class="co">#load the chainladder package</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>RAA <span class="co">#Run-off triangle of Automatic Factultative business in General Liability</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      dev
+origin    1     2     3     4     5     6     7     8     9    10
+  1981 5012  8269 10907 11805 13539 16181 18009 18608 18662 18834
+  1982  106  4285  5396 10666 13782 15599 15496 16169 16704    NA
+  1983 3410  8992 13873 16141 18735 22214 22863 23466    NA    NA
+  1984 5655 11555 15766 21266 23425 26083 27067    NA    NA    NA
+  1985 1092  9565 15836 22169 25955 26180    NA    NA    NA    NA
+  1986 1513  6445 11702 12935 15852    NA    NA    NA    NA    NA
+  1987  557  4020 10946 12314    NA    NA    NA    NA    NA    NA
+  1988 1351  6947 13112    NA    NA    NA    NA    NA    NA    NA
+  1989 3133  5395    NA    NA    NA    NA    NA    NA    NA    NA
+  1990 2063    NA    NA    NA    NA    NA    NA    NA    NA    NA</code></pre>
+</div>
+</div>
+</section>
+<section id="chainladder-package-example-1" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li>Use <code>cum2incr</code> to convert from cumulative to incremental</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">cum2incr</span>(RAA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      dev
+origin    1    2    3    4    5    6    7   8   9  10
+  1981 5012 3257 2638  898 1734 2642 1828 599  54 172
+  1982  106 4179 1111 5270 3116 1817 -103 673 535  NA
+  1983 3410 5582 4881 2268 2594 3479  649 603  NA  NA
+  1984 5655 5900 4211 5500 2159 2658  984  NA  NA  NA
+  1985 1092 8473 6271 6333 3786  225   NA  NA  NA  NA
+  1986 1513 4932 5257 1233 2917   NA   NA  NA  NA  NA
+  1987  557 3463 6926 1368   NA   NA   NA  NA  NA  NA
+  1988 1351 5596 6165   NA   NA   NA   NA  NA  NA  NA
+  1989 3133 2262   NA   NA   NA   NA   NA  NA  NA  NA
+  1990 2063   NA   NA   NA   NA   NA   NA  NA  NA  NA</code></pre>
+</div>
+</div>
+</section>
+<section id="chainladder-package-example-2" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li>use <code>plot</code> to plot the triangle. Specify <code>lattice = T</code> to plot in lattice.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">plot</span>(RAA<span class="sc">/</span><span class="dv">1000</span>,  <span class="at">main =</span> <span class="st">"Claims development by origin year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<aside><div>
-<p>Some additional commentary of more peripheral interest.</p>
-</div><ol class="aside-footnotes"><li id="fn1" role="doc-endnote"><p>A footnote</p></li></ol></aside></section>
-<section id="columns" class="slide level2">
-<h2>Columns</h2>
-<div class="columns">
-<div class="column" style="width:40%;">
-<p>contents…</p>
-</div><div class="column" style="width:60%;">
-<p>contents…</p>
+<img data-src="ReservingInR_Quarto_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section id="chainladder-package-example-3" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li>See the age-to-age factors</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">ata</span>(RAA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      dev
+origin    1-2   2-3   3-4   4-5   5-6   6-7   7-8   8-9  9-10
+  1981  1.650 1.319 1.082 1.147 1.195 1.113 1.033 1.003 1.009
+  1982 40.425 1.259 1.977 1.292 1.132 0.993 1.043 1.033    NA
+  1983  2.637 1.543 1.163 1.161 1.186 1.029 1.026    NA    NA
+  1984  2.043 1.364 1.349 1.102 1.113 1.038    NA    NA    NA
+  1985  8.759 1.656 1.400 1.171 1.009    NA    NA    NA    NA
+  1986  4.260 1.816 1.105 1.226    NA    NA    NA    NA    NA
+  1987  7.217 2.723 1.125    NA    NA    NA    NA    NA    NA
+  1988  5.142 1.887    NA    NA    NA    NA    NA    NA    NA
+  1989  1.722    NA    NA    NA    NA    NA    NA    NA    NA
+  smpl  8.206 1.696 1.315 1.183 1.127 1.043 1.034 1.018 1.009
+  vwtd  2.999 1.624 1.271 1.172 1.113 1.042 1.033 1.017 1.009</code></pre>
 </div>
 </div>
+<ul>
+<li>Compute the weighted average factor use the code below.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>n <span class="ot">&lt;-</span> <span class="fu">ncol</span>(RAA)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>f <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>),</span>
+<span id="cb9-3"><a href="#cb9-3"></a>            <span class="cf">function</span>(i){</span>
+<span id="cb9-4"><a href="#cb9-4"></a>              <span class="fu">sum</span>(RAA[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(n<span class="sc">-</span>i)),i<span class="sc">+</span><span class="dv">1</span>])<span class="sc">/</span><span class="fu">sum</span>(RAA[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(n<span class="sc">-</span>i)),i])</span>
+<span id="cb9-5"><a href="#cb9-5"></a>            }</span>
+<span id="cb9-6"><a href="#cb9-6"></a>)</span>
+<span id="cb9-7"><a href="#cb9-7"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.999359 1.623523 1.270888 1.171675 1.113385 1.041935 1.033264 1.016936
+[9] 1.009217</code></pre>
+</div>
+</div>
+</section>
+<section id="chainladder-package-example-4" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li>Lets <code>plot</code> <code>f</code> to see the rate of development for this claims process.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">plot</span>(<span class="dv">100</span><span class="sc">*</span>(<span class="fu">rev</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">cumprod</span>(<span class="fu">rev</span>(f)))), <span class="at">t=</span><span class="st">"b"</span>,</span>
+<span id="cb11-2"><a href="#cb11-2"></a>     <span class="at">main=</span><span class="st">"Expected claims development pattern"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3"></a>     <span class="at">xlab=</span><span class="st">"Dev. period"</span>, <span class="at">ylab=</span><span class="st">"Development % of ultimate loss"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ReservingInR_Quarto_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<section id="chainladder-package-example-5" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li>IBNR for RAA?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">library</span>(scales)</span>
+<span id="cb12-3"><a href="#cb12-3"></a>currentEval <span class="ot">&lt;-</span> <span class="fu">getLatestCumulative</span>(RAA)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>LDF <span class="ot">&lt;-</span> <span class="fu">cumprod</span>(<span class="fu">rev</span>(<span class="fu">c</span>(f,<span class="dv">1</span>)))</span>
+<span id="cb12-5"><a href="#cb12-5"></a>EstdUlt <span class="ot">&lt;-</span> currentEval <span class="sc">*</span> LDF <span class="co">#</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="co"># Start with the body of the exhibit</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a>Exhibit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(currentEval, <span class="at">LDF =</span> <span class="fu">round</span>(LDF, <span class="dv">3</span>), EstdUlt) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">IBNR =</span>  EstdUlt <span class="sc">-</span> currentEval)</span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co"># Tack on a Total row</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>Exhibit <span class="ot">&lt;-</span> <span class="fu">rbind</span>(Exhibit,</span>
+<span id="cb12-10"><a href="#cb12-10"></a>                 <span class="fu">data.frame</span>(<span class="at">currentEval=</span><span class="fu">sum</span>(currentEval), <span class="at">LDF=</span><span class="cn">NA</span>, <span class="at">EstdUlt=</span><span class="fu">sum</span>(EstdUlt), <span class="at">IBNR =</span> <span class="fu">sum</span>(Exhibit<span class="sc">$</span>IBNR),</span>
+<span id="cb12-11"><a href="#cb12-11"></a>                            <span class="at">row.names =</span> <span class="st">"Total"</span>))</span>
+<span id="cb12-12"><a href="#cb12-12"></a></span>
+<span id="cb12-13"><a href="#cb12-13"></a>Exhibit <span class="ot">&lt;-</span> Exhibit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">currentEval =</span> <span class="fu">formatC</span>(currentEval, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="at">EstdUlt =</span> <span class="fu">format</span>(<span class="fu">round</span>(EstdUlt,<span class="dv">0</span>), <span class="at">big.mark =</span> <span class="st">","</span>, <span class="at">scientific =</span> F), <span class="at">IBNR =</span> <span class="fu">format</span>(<span class="fu">round</span>(IBNR,<span class="dv">0</span>), <span class="at">big.mark =</span> <span class="st">","</span>, <span class="at">scientific =</span> F))</span>
+<span id="cb12-14"><a href="#cb12-14"></a></span>
+<span id="cb12-15"><a href="#cb12-15"></a>Exhibit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      currentEval   LDF EstdUlt   IBNR
+1981       18,834 1.000  18,834      0
+1982       16,704 1.009  16,858    154
+1983       23,466 1.026  24,083    617
+1984       27,067 1.060  28,703  1,636
+1985       26,180 1.105  28,927  2,747
+1986       15,852 1.230  19,501  3,649
+1987       12,314 1.441  17,749  5,435
+1988       13,112 1.832  24,019 10,907
+1989        5,395 2.974  16,045 10,650
+1990        2,063 8.920  18,402 16,339
+Total     160,987    NA 213,122 52,135</code></pre>
+</div>
+</div>
+</section>
+<section id="chainladder-package-example-6" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li>Complete triangle</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>f <span class="ot">&lt;-</span> <span class="fu">c</span>(f, <span class="dv">1</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>fullRAA <span class="ot">&lt;-</span> <span class="fu">cbind</span>(RAA, <span class="at">Ult =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>))</span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb14-4"><a href="#cb14-4"></a>  fullRAA[(n<span class="sc">-</span>k<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n, k<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> fullRAA[(n<span class="sc">-</span>k<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n,k]<span class="sc">*</span>f[k]</span>
+<span id="cb14-5"><a href="#cb14-5"></a>}</span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="fu">round</span>(fullRAA) <span class="co">#Run-off triangle of Automatic Factultative business in General Liability</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        1     2     3     4     5     6     7     8     9    10   Ult
+1981 5012  8269 10907 11805 13539 16181 18009 18608 18662 18834 18834
+1982  106  4285  5396 10666 13782 15599 15496 16169 16704 16858 16858
+1983 3410  8992 13873 16141 18735 22214 22863 23466 23863 24083 24083
+1984 5655 11555 15766 21266 23425 26083 27067 27967 28441 28703 28703
+1985 1092  9565 15836 22169 25955 26180 27278 28185 28663 28927 28927
+1986 1513  6445 11702 12935 15852 17649 18389 19001 19323 19501 19501
+1987  557  4020 10946 12314 14428 16064 16738 17294 17587 17749 17749
+1988 1351  6947 13112 16664 19525 21738 22650 23403 23800 24019 24019
+1989 3133  5395  8759 11132 13043 14521 15130 15634 15898 16045 16045
+1990 2063  6188 10046 12767 14959 16655 17353 17931 18234 18402 18402</code></pre>
+</div>
+</div>
+</section>
+<section id="chainladder-package-example-7" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li><code>BootChainLadder</code> by England and Verrall (England and Verrall 2002)</li>
+<li>Predictive distribution of reserves</li>
+<li>use <code>quantiles</code></li>
+<li>IFRS17 RA (VAR method)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>raa.boot <span class="ot">&lt;-</span> <span class="fu">BootChainLadder</span>(RAA, <span class="dv">10000</span>, <span class="st">"od.pois"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">quantile</span>(raa.boot, <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.6</span>,<span class="fl">0.75</span>,<span class="fl">0.95</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$ByOrigin
+     IBNR 50% IBNR 60% IBNR 75% IBNR 95%
+1981      0.0      0.0     0.00     0.00
+1982      1.0     18.0   178.00  1362.00
+1983    317.0    569.0  1118.25  3101.20
+1984   1304.5   1773.8  2648.25  5413.00
+1985   2401.0   2949.0  4059.00  7231.25
+1986   3313.5   3941.4  5115.00  8360.15
+1987   5027.0   5781.0  7255.75 11568.60
+1988  10450.5  11725.4 13987.00 20302.30
+1989  10121.5  11699.2 14543.75 22282.35
+1990  15546.5  18614.8 24487.50 42587.25
+
+$Totals
+            Totals
+IBNR 50%: 51938.50
+IBNR 60%: 56711.60
+IBNR 75%: 65320.25
+IBNR 95%: 88056.00</code></pre>
+</div>
+</div>
+</section>
+<section id="chainladder-package-example-8" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package example</h2>
+<ul>
+<li><code>plot</code> <code>raa.boot</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">plot</span>(raa.boot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ReservingInR_Quarto_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
+<section id="chainladder-package-discussion" class="slide level2 smaller">
+<h2><code>ChainLadder</code> package discussion</h2>
+<ul>
+<li>More information on the method underlying the <code>BootChainLadder</code></li>
+<li><code>ChainLadder</code> requires imported triangles (wide/long).</li>
+<li>Use other methods e.g BF, LR, CapeCod etc for specific cohort. Not available in the package yet.</li>
+<li>Apply weights from specific section of the triangle for LDF computation.</li>
+<li>Our goal is to automate the entire process in R. The <code>ChainLadder</code> package will help with about 10%.</li>
+<li>You have to take control.</li>
+</ul>
+</section></section>
+<section>
+<section id="take-control" class="title-slide slide level1 center">
+<h1>Take Control</h1>
+
+</section>
+<section id="take-control-1" class="slide level2 smaller">
+<h2>Take Control</h2>
+<ul>
+<li>Import data into <code>R</code> from Excel or Database or <code>.RData</code>. More info <a href="https://db.rstudio.com/getting-started/">here</a>.</li>
+<li>Take advantage of <code>tidyverse</code> package to clean your data and put in right format for use.</li>
+<li>Summary statistics.</li>
+<li>For Non-life reserving, we need the <strong>exposure</strong> database and <strong>claims</strong> database.
+<ul>
+<li>Do a reconciliation to external sources e.g ledger or revenue account.</li>
+<li>Use exposure data to computes, EP, UPR, DAC etc.</li>
+<li>Use Claims data to generate incremental triangles from claims data as required.</li>
+<li>Generate cumulative and compute <code>ata</code> factors if necessary. Selected required LDF.</li>
+<li>Write functions to help generate IBNR as needed.</li>
+</ul></li>
+<li>Generate IBNR in a few minutes.</li>
+</ul>
+</section></section>
+<section>
+<section id="more-control-with-shiny" class="title-slide slide level1 center">
+<h1>More Control with ’<em><code>Shiny</code>’</em></h1>
+
+</section>
+<section id="oh-i-love-shiny" class="slide level2 smaller">
+<h2>Oh! I love <code>shiny</code></h2>
+<ul>
+<li>Yes, you can visualise your work.</li>
+<li>See docs on <a href="https://shiny.rstudio.com/tutorial/#get-started"><code>shiny</code></a> here. Also <a href="https://rstudio.github.io/shinydashboard/"><code>shinydashboard</code></a> here</li>
+<li>Initial investment is required. Walk in the park afterwards.</li>
+<li>See example <a href="http://127.0.0.1:5982">here</a>.</li>
+<li>Write your reports with RMarkdown.</li>
+<li>Design your presentation with <a href="https://quarto.org/docs/presentations/revealjs/">Quarto</a>.</li>
+</ul>
+</section></section>
+<section id="wrap-up-resources-and-references" class="title-slide slide level1 smaller center">
+<h1>Wrap Up, Resources and References</h1>
+<ul>
+<li><p>Code documentation, version control and collaboration with GitHub</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/ChainLadder/ChainLadder.pdf">ChainLadder</a></p></li>
+<li><p>England and Verrall 2002 <a href="https://www.actuaries.org.uk/system/files/documents/pdf/sm0201.pdf">paper</a>.</p></li>
+<li><p>Claims Reserving in General Insurance (SP7) - <a href="https://davidjhindley.com/shiny/claimsreserving/">David Hindley</a></p></li>
+<li><p>Learn <a href="https://r4ds.had.co.nz/"><code>tidyverse</code></a>, <a href="https://www.w3schools.com/sql/">SQL</a> (use <a href="https://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/sql.html">SQL in R</a>), <a href="https://happygitwithr.com/index.html">GitHub</a>, <a href="https://shiny.rstudio.com/tutorial/#get-started"><code>shiny</code></a>, <a href="https://rstudio.github.io/shinydashboard/"><code>shinydashboard</code></a>.</p></li>
+<li><p>Source code: <a href="https://github.com/djhindley/shiny-server/tree/master/claimsreserving">DavidHindley</a>, <a href="https://github.com/mages/ChainLadder"><code>ChainLadder</code></a></p></li>
+<li><p><a href="https://github.com/cyriladoh/ReservingInR_NAS_CPD">ReservingInR_NAS_CPD</a> repository.</p>
+<aside class="notes">
+<p>Looking forward to repos</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside></li>
+</ul>
+</section>
+
+<section id="thank-you." class="title-slide slide level1 center">
+<h1>Thank you.</h1>
 
 <img src="nas_logo.jpeg" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>August 24, 2022 - NAS CPD Session</p>
 </div>
 </section>
-
     </div>
   </div>
 
@@ -562,6 +976,48 @@
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          // dispatch for htmlwidgets
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for reveal
+        if (window.Reveal) {
+          window.Reveal.addEventListener("slidechanged", function(event) {
+            fireSlideChanged(event.previousSlide, event.currentSlide);
+          });
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

@@ -34,11 +34,16 @@ round(fullRAA)
 sum(fullRAA[,11]-getLatestCumulative(RAA))
 
 currentEval <- getLatestCumulative(RAA)
-EstdUlt <- currentEval * rev(LDF) #
+LDF <- cumprod(rev(c(f,1)))
+EstdUlt <- currentEval * LDF #
 # Start with the body of the exhibit
-Exhibit <- data.frame(currentEval, LDF = round(rev(LDF), 3), EstdUlt)
+Exhibit <- data.frame(currentEval, LDF = round(LDF, 3), EstdUlt) %>% mutate(IBNR =  EstdUlt - currentEval)
 # Tack on a Total row
 Exhibit <- rbind(Exhibit,
-                 data.frame(currentEval=sum(currentEval), LDF=NA, EstdUlt=sum(EstdUlt),
+                 data.frame(currentEval=sum(currentEval), LDF=NA, EstdUlt=sum(EstdUlt), IBNR = sum(Exhibit$IBNR),
                             row.names = "Total"))
+
+Exhibit <- Exhibit %>% mutate(currentEval = formatC(currentEval, big.mark = ","), EstdUlt = format(round(EstdUlt,0), big.mark = ",", scientific = F), IBNR = format(round(IBNR,0), big.mark = ",", scientific = F))
+
 Exhibit
+

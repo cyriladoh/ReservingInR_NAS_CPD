@@ -1,37 +1,223 @@
 ---
 title: "Reserving In R"
-subtitle: "A Practical Approach"
-author: "Cyril Adoh"
+subtitle: "A Practical Approach (Non Life)"
+author: "Cyril Adoh (adocyrilazuka@gmail.com)"
 format: 
   revealjs:
+    toc: true
+    toc_float: true
+    toc-depth: 1
+    toc-location: body
+    toc-title: "Contents"
     slide-number: h/v
     show-slide-number: all
+    css: style.css
     
     logo: nas_logo.jpeg
     footer: "August 24, 2022 - NAS CPD Session"
 ---
 
-## Data Imports
+# Actuarial Automation
 
-::: {.incremental}
-- Turn off alarm
-- Get out of bed ^[A footnote]
+## Actuarial Automation {.smaller}
 
-::: aside
-Some additional commentary of more peripheral interest.
+::: {.columns .v-center-container}
+::: {.column width="100%"}
+*...We are stuck in using Excel similar to how actuaries in the old days were stuck using logbooks. We need to make peace with the fact that we cannot visualize all the calculations and every part of the process like with using Excel...* ---Adriaan Rowan
 :::
 :::
 
-## Columns
+# Backstory
 
-:::: {.columns}
-
-::: {.column width="40%"}
-contents...
+## Backstory {.smaller}
+::: incremental
+-   Motivation
+-   How do we do it today?
+-   Other use cases. (RI optimisation, Large Loss Modelling, EC Modelling, ALM, IFRS17 cashflows, Portfolio Analytics)
+-   What skills are required?
+    - Strong actuarial knowledge (!important)
+    - Programming skills
+    - Patience
+-   
 :::
 
-::: {.column width="60%"}
-contents...
+::: notes
+    How did you start?.
+    Programming skills. Not necessarily R.
+    Talk about AXA Harper tools in use cases.
 :::
 
-::::
+# Package '*`ChainLadder`*'![](chainladder.png){width="41"}
+
+## Package '*`ChainLadder`*'![](chainladder.png){width="27"} {.smaller}
+
+-   Standard definition: The `ChainLadder` package provides various statistical methods which are typically used for the estimation of outstanding claims reserves in general insurance.
+-   Methods available are: `MackChainLadder`, `MunichChainLadder`, `Bootstrap`, GLM etc.
+-   Also contains useful functions `incr2cum`, `cum2incr`, `ata` etc.
+
+## `ChainLadder` package example {.smaller}
+
+-   In this example, we will use `RAA` data that come with the `ChainLadder` package to illustrate its features.
+
+```{r echo = T}
+library(ChainLadder) #load the chainladder package
+RAA #Run-off triangle of Automatic Factultative business in General Liability
+```
+
+## `ChainLadder` package example {.smaller}
+
+-   Use `cum2incr` to convert from cumulative to incremental
+
+```{r echo = T}
+cum2incr(RAA)
+```
+
+## `ChainLadder` package example {.smaller}
+
+-   use `plot` to plot the triangle. Specify `lattice = T` to plot in lattice.
+
+```{r echo = T}
+plot(RAA/1000,  main = "Claims development by origin year")
+```
+
+## `ChainLadder` package example {.smaller}
+
+-   See the age-to-age factors
+
+```{r echo = T}
+ata(RAA)
+```
+
+-   Compute the weighted average factor use the code below.
+
+```{r echo = T}
+n <- ncol(RAA)
+f <- sapply(1:(n-1),
+            function(i){
+              sum(RAA[c(1:(n-i)),i+1])/sum(RAA[c(1:(n-i)),i])
+            }
+)
+f
+```
+
+## `ChainLadder` package example {.smaller}
+
+-   Lets `plot` `f` to see the rate of development for this claims process.
+
+```{r echo = T}
+plot(100*(rev(1/cumprod(rev(f)))), t="b",
+     main="Expected claims development pattern",
+     xlab="Dev. period", ylab="Development % of ultimate loss")
+```
+
+## `ChainLadder` package example {.smaller}
+
+-   IBNR for RAA?
+
+```{r echo = T}
+library(tidyverse)
+library(scales)
+currentEval <- getLatestCumulative(RAA)
+LDF <- cumprod(rev(c(f,1)))
+EstdUlt <- currentEval * LDF #
+# Start with the body of the exhibit
+Exhibit <- data.frame(currentEval, LDF = round(LDF, 3), EstdUlt) %>% mutate(IBNR =  EstdUlt - currentEval)
+# Tack on a Total row
+Exhibit <- rbind(Exhibit,
+                 data.frame(currentEval=sum(currentEval), LDF=NA, EstdUlt=sum(EstdUlt), IBNR = sum(Exhibit$IBNR),
+                            row.names = "Total"))
+
+Exhibit <- Exhibit %>% mutate(currentEval = formatC(currentEval, big.mark = ","), EstdUlt = format(round(EstdUlt,0), big.mark = ",", scientific = F), IBNR = format(round(IBNR,0), big.mark = ",", scientific = F))
+
+Exhibit
+```
+
+## `ChainLadder` package example {.smaller}
+
+-   Complete triangle
+
+```{r echo = T}
+f <- c(f, 1)
+fullRAA <- cbind(RAA, Ult = rep(0, 10))
+for(k in 1:n){
+  fullRAA[(n-k+1):n, k+1] <- fullRAA[(n-k+1):n,k]*f[k]
+}
+round(fullRAA) #Run-off triangle of Automatic Factultative business in General Liability
+```
+
+## `ChainLadder` package example {.smaller}
+
+-   `BootChainLadder` by England and Verrall (England and Verrall 2002)
+-   Predictive distribution of reserves
+-   use `quantiles`
+-   IFRS17 RA (VAR method)
+
+```{r echo = T}
+raa.boot <- BootChainLadder(RAA, 10000, "od.pois")
+quantile(raa.boot, c(0.5,0.6,0.75,0.95))
+```
+
+## `ChainLadder` package example {.smaller}
+
+-   `plot` `raa.boot`
+
+```{r echo = T}
+plot(raa.boot)
+```
+
+## `ChainLadder` package discussion {.smaller}
+
+-   More information on the method underlying the `BootChainLadder`
+-   `ChainLadder` requires imported triangles (wide/long).
+-   Use other methods e.g BF, LR, CapeCod etc for specific cohort. Not available in the package yet.
+-   Apply weights from specific section of the triangle for LDF computation.
+-   Our goal is to automate the entire process in R. The `ChainLadder` package will help with about 10%.
+-   You have to take control.
+
+# Take Control
+
+## Take Control {.smaller}
+
+-   Import data into `R` from Excel or Database or `.RData`. More info [here](https://db.rstudio.com/getting-started/).
+-   Take advantage of `tidyverse` package to clean your data and put in right format for use.
+-   Summary statistics.
+-   For Non-life reserving, we need the **exposure** database and **claims** database.
+    -   Do a reconciliation to external sources e.g ledger or revenue account.
+    -   Use exposure data to computes, EP, UPR, DAC etc.
+    -   Use Claims data to generate incremental triangles from claims data as required.
+    -   Generate cumulative and compute `ata` factors if necessary. Selected required LDF.
+    -   Write functions to help generate IBNR as needed.
+-   Generate IBNR in a few minutes.
+
+# More Control with '*`Shiny`'*
+
+## Oh! I love `shiny` {.smaller}
+
+-   Yes, you can visualise your work.
+-   See docs on [`shiny`](https://shiny.rstudio.com/tutorial/#get-started) here. Also [`shinydashboard`](https://rstudio.github.io/shinydashboard/) here
+-   Initial investment is required. Walk in the park afterwards.
+-   See example [here](http://127.0.0.1:5982).
+-   Write your reports with RMarkdown.
+-   Design your presentation with [Quarto](https://quarto.org/docs/presentations/revealjs/).
+
+# Wrap Up, Resources and References {.smaller}
+
+-   Code documentation, version control and collaboration with GitHub
+
+-   [ChainLadder](https://cran.r-project.org/web/packages/ChainLadder/ChainLadder.pdf)
+
+-   England and Verrall 2002 [paper](https://www.actuaries.org.uk/system/files/documents/pdf/sm0201.pdf).
+
+-   Claims Reserving in General Insurance (SP7) - [David Hindley](https://davidjhindley.com/shiny/claimsreserving/)
+
+-   Learn [`tidyverse`](https://r4ds.had.co.nz/), [SQL](https://www.w3schools.com/sql/) (use [SQL in R](https://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/sql.html)), [GitHub](https://happygitwithr.com/index.html), [`shiny`](https://shiny.rstudio.com/tutorial/#get-started), [`shinydashboard`](https://rstudio.github.io/shinydashboard/).
+
+-   Source code: [DavidHindley](https://github.com/djhindley/shiny-server/tree/master/claimsreserving), [`ChainLadder`](https://github.com/mages/ChainLadder)
+
+-   [ReservingInR_NAS_CPD](https://github.com/cyriladoh/ReservingInR_NAS_CPD) repository.
+
+    ::: notes
+    Looking forward to repos
+    :::
+
+# Thank you.
