@@ -196,7 +196,6 @@ plot(raa.boot)
 -   Yes, you can visualise your work.
 -   See docs on [`shiny`](https://shiny.rstudio.com/tutorial/#get-started) here. Also [`shinydashboard`](https://rstudio.github.io/shinydashboard/) here
 -   Initial investment is required. Walk in the park afterwards.
--   See example [here](http://127.0.0.1:5982).
 -   Write your reports with RMarkdown.
 -   Design your presentation with [Quarto](https://quarto.org/docs/presentations/revealjs/).
 
