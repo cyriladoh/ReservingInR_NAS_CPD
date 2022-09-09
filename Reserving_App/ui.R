@@ -3,10 +3,10 @@
 #Purpose:
 
 #load libraries and CSS
-#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/LoadData.R")
-#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Premiums.R")
-#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Claims.R")
-#source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Reserving_Model.R")
+source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/LoadData.R")
+source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Premiums.R")
+source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Claims.R")
+source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/Reserving_Model.R")
 
 library(shiny)
 library(shinythemes)
