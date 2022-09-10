@@ -40,4 +40,4 @@ source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/CoreTriang
 #first the required columns
 tri_df <- local_clmdata_var %>% filter(plan == "Product1")
 
-tri_plan1 <- GetIncrementalTriangle(tri_df$accidentdate, tri_df$paymentdate, tri_df$notificationdate, tri_df$claimpaid, CohortType = "Monthly", TriangleType = "Paid", ValueType = "Amount", RBNPData, TriangleShape = "Wide")
+tri_plan1 <- GetIncrementalTriangle(tri_df$accidentdate, tri_df$paymentdate, tri_df$notificationdate, tri_df$claimpaid, CohortType = "Monthly", TriangleType = "Paid", ValueType = "Amount", TriangleShape = "Wide")

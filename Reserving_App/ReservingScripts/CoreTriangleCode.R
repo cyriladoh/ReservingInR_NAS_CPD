@@ -1,7 +1,7 @@
 #Begin creating triangle
 
 #Incremental Triangle
-GetIncrementalTriangle <- function(lossdates, paymentdates, notificationdates, amountpaid, CohortType = "Annual", TriangleType = "Paid", ValueType = "Amount", RBNPData, TriangleShape = "Long"){
+GetIncrementalTriangle <- function(lossdates, paymentdates, notificationdates, amountpaid, CohortType = "Annual", TriangleType = "Paid", ValueType = "Amount", TriangleShape = "Long"){
   
   validate <- (length(lossdates) == length(paymentdates)) == (length(notificationdates) == length(amountpaid))
   if(!validate) stop("Error:Data must be of same length")
