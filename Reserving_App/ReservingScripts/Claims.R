@@ -38,6 +38,6 @@ source("~/Desktop/ReservingInR_NAS_CPD/Reserving_App/ReservingScripts/CoreTriang
 
 #Create incremental triangle
 #first the required columns
-tri_df <- local_clmdata_var %>% group_by(devmonth, accyear, accmonth, accmonyear, plan) %>% summarise(value = sum(claimpaid, na.rm = T))
+tri_df <- local_clmdata_var %>% filter(plan == "Product1")
 
-tri_plan1 <- IncrementTri(tri_df %>% filter(plan == "Product1") ,origin = "accmonyear", dev = "devmonth", value = "claimpaid")
+tri_plan1 <- GetIncrementalTriangle(tri_df$accidentdate, tri_df$paymentdate, tri_df$notificationdate, tri_df$claimpaid, CohortType = "Monthly", TriangleType = "Paid", ValueType = "Amount", RBNPData, TriangleShape = "Wide")

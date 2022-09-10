@@ -1,18 +1,83 @@
 #Begin creating triangle
 
-#This code is used to create the reserving triangle
-IncrementTri <- function(clmdata, origin = "origin", dev = "dev", value = "value"){
+#Incremental Triangle
+GetIncrementalTriangle <- function(lossdates, paymentdates, notificationdates, amountpaid, CohortType = "Annual", TriangleType = "Paid", ValueType = "Amount", RBNPData, TriangleShape = "Long"){
   
-  longTri <- crtLongTriangle(clmdata, origin, dev, value)
-  tri <- crtTriangle(longTri, origin, dev, value)
-  return (tri)
+  validate <- (length(lossdates) == length(paymentdates)) == (length(notificationdates) == length(amountpaid))
+  if(!validate) stop("Error:Data must be of same length")
+  
+  origin <- GetCohorts(lossdates, CohortType)
+  
+  if(TriangleType == "Paid"){
+    dev <- GevDevPeriod(lossdates, paymentdates, CohortType)
+  } else {
+    dev <-  GevDevPeriod(lossdates, notificationdates, CohortType)
+  }
+  
+  switch(TriangleShape, 
+         Long = {
+           res =  GetLongTriangle(origin, dev, amountpaid, ValueType)
+         },
+         Wide = {
+           res = GetWideTriangle(origin, dev, amountpaid, ValueType) 
+         })
+  
+  return(res)
 }
 
-#Create long triangle from data
-crtLongTriangle <- function(x, origin = "origin", dev = "dev", value = "value"){ #accepts a df and returns a longTri
+#Use this function to get triangle origins
+GetCohorts <- function(lossdates, CohortType){
+  switch(CohortType,
+         Annual = {
+           res = year(lossdates)
+         },
+         BiAnnual = {
+           res = paste0(year(lossdates), ifelse(month(lossdates) <= 6, "H1", "H2"))
+         },
+         Quarterly = {
+           res = paste0(year(lossdates), paste0("Q",quarter(lossdates)))
+         },
+         Monthly = {
+           res = as.yearmon(lossdates)
+         }
+  )
   
-  longTri <- x %>% rename(origin = origin, dev = dev, value = value)
-  longTri <- longTri %>% ungroup() %>% dplyr::select(origin,dev,value)
+  return(res)
+}
+
+GevDevPeriod <- function(lossdates, otherdates, CohortType){
+  validate = length(lossdates) == length(otherdates)
+  if(!validate) stop("Error:Dates must be of same length")
+  
+  switch(CohortType,
+         Annual = {
+           res = year(otherdates) - year(lossdates)
+         },
+         BiAnnual = {
+           res = ((year(otherdates)-year(lossdates))*2)+(ceiling(month(otherdates)/6)-ceiling(month(lossdates)/6))
+         },
+         Quarterly = {
+           res = ((year(otherdates)-year(lossdates))*4)+(ceiling(month(otherdates)/3)-ceiling(month(lossdates)/3))
+         },
+         Monthly = {
+           res = ((year(otherdates)-year(lossdates))*12)+(ceiling(month(otherdates))-ceiling(month(lossdates)))
+         }
+  )
+  
+  return(res+1)
+}
+
+GetLongTriangle <- function(origin, dev, value, ValueType){
+  
+  validate = (length(origin) == length(dev)) == (length(value) == length(origin))
+  if(!validate) stop("Error:Data must be of same length")
+  
+  longTri <- data.frame(origin = origin, dev = dev, value = value)
+  longTri <- longTri %>% group_by(dev, origin) %>% summarise(value = switch (ValueType,
+                                                                             Amount = sum(value, na.rm = T),
+                                                                             Count = n(),
+                                                                             Severity = sum(value, na.rm = T)/n()
+  ))
   longTri <- filter(longTri, !is.na(dev)) %>% arrange(dev)
   
   longTri <- longTri %>% rename(origin1 = "origin", dev1 = "dev", value1 = "value")
@@ -32,31 +97,31 @@ crtLongTriangle <- function(x, origin = "origin", dev = "dev", value = "value"){
   longTri <- left_join(df, longTri, by = "key")
   longTri <- longTri %>% rename(value = "value1")
   longTri <- longTri %>% dplyr::select(-c(origin1, dev1, key))
+  longTri <- longTri %>% arrange(dev, origin)
   
   return(longTri)
 }
 
-#Copied from ChainLadder package (as.triangle.dataframe) with little modifications
-#Creates wide triangle from long paid triangle
-crtTriangle <- function(longTri, origin="origin", dev="dev", value="value"){
-  
+
+GetWideTriangle <- function(origin, dev, value, ValueType){
+  longTri <- GetLongTriangle(origin, dev, value, ValueType)
   aggTriangle <- longTri
-  names(aggTriangle) <- c(origin, dev, value)
+  names(aggTriangle) <- c("origin", "dev", "value")
   
-  origin_names <- as.character(unique(aggTriangle[, origin]))
-  dev_names <-   as.character(unique(aggTriangle[, dev]))
+  origin_names <- as.character(unique(aggTriangle[, "origin"]))
+  dev_names <-   as.character(unique(aggTriangle[, "dev"]))
   
   # reshape into wide format
   tria <- stats::reshape(aggTriangle, 
-                         v.names=value, 
-                         timevar = dev, 
-                         idvar = origin, 
+                         v.names="value", 
+                         timevar = "dev", 
+                         idvar = "origin", 
                          direction = "wide", 
                          new.row.names = origin_names)[, -1]
   
   matrixTriangle <- as.matrix(tria)
   
-  names(dimnames(matrixTriangle)) <- c(origin, dev)
+  names(dimnames(matrixTriangle)) <- c("origin", "dev")
   
   dimnames(matrixTriangle)[[1]] <- origin_names
   dimnames(matrixTriangle)[[2]] <- dev_names
@@ -95,8 +160,8 @@ reserve_df <- function(x, ocr, ep, ielr_s, f, selected_mthd, format = F){
   return(res_df)
 }
 
+#set upper triangle with na to zero
 upperTri_NoNA <- function(Triangle){
-  
   #set upper triangle with na to zero
   upper <- col(Triangle) <= ncol(Triangle) + 1 - row(Triangle)
   upperna <- which(is.na(Triangle[upper]), arr.ind=TRUE)
